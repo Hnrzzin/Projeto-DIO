@@ -1,0 +1,85 @@
+MAX_SAQUES = 3
+MAX_DEPOSITOS = 3
+saque_user = 0.00  # quanto o usuário sacou
+cont = 0  # contador de saques
+cont2 = 0  # contador de depósitos
+extrato_saque = 0.00  # extrato que será somado ao final
+extrato_deposito = 0.00 #extrato que sera somado ao final 
+extrato_geral = 0.00 #soma dos extratos
+#informaçoes e menu
+n_usuario = input("\nInsira seu nome: ")
+print('-'*80)
+print(f"Olá {n_usuario}, seja bem-vindo ao banco!")
+n_dinheiro = float(input("Insira o dinheiro que possui na conta: R$ "))  # dinheiro declarado
+print("\n Q - EXTRATO \n D - DEPOSITO \n S - SAQUE \n E - EXIT \n")
+print('-'*80)
+#loop que só para quando usuario aperta Exit
+while True: #while principal
+    opcao = input("INSIRA O QUE DESEJA FAZER DE ACORDO COM QUE ESTÁ ACIMA: ").upper()
+
+    if opcao not in ["Q", "D", "S", "E"]:
+        print("Selecione a opção certa, por favor!")
+    else:
+        if opcao == "Q": #extrato
+            print("VOCÊ ENTROU NO EXTRATO")
+            extrato_geral = extrato_saque + extrato_deposito
+            print(f"O seu extrato é de R$ {extrato_geral:.2f}")
+        
+        elif opcao == "D":
+            print("VOCÊ ENTROU NO DEPOSITO")
+            while cont2 < MAX_DEPOSITOS: #while que controla o n de depósitos
+                n_deposito = float(input("Insira o quanto deseja depositar: R$ "))
+                extrato_deposito += n_deposito
+                n_dinheiro += n_deposito
+                print(f"Seu saldo atual é de R$ {n_dinheiro:.2f}")
+                cont2 += 1
+                if cont2 == MAX_DEPOSITOS:
+                    print("Você chegou no seu limite de depósitos, volte amanhã.")
+                    break
+                else:
+                   while True: #while que controla o S/N
+                        resp = input("Deseja fazer outro depósito? Se sim, aperte S, se não, aperte N: ").upper()
+                        if resp not in ["N", "S"]:
+                            print("Selecione a opção certa, por favor!")   
+                        elif resp == "S":
+                             n_deposito = float(input("Insira o quanto deseja depositar: R$ "))
+                        else:
+                            if resp == "N":
+                                break
+                if resp == "N":
+                    break
+                            
+                         
+           
+        elif opcao == "S":
+            print("VOCÊ ENTROU NO SAQUE")
+            if n_dinheiro <= 0:
+                print("Você não tem saldo!")
+            else:
+                while cont < MAX_SAQUES:#if que controla o n de saques
+                    saque_user = float(input("Insira quanto deseja sacar: R$ "))
+                    if saque_user > 500.00:
+                        print("Não foi possível realizar saque, limite máximo de R$ 500,00")
+                    elif saque_user > n_dinheiro:
+                        print(f"Não foi possível realizar ação, saque maior que R$ {n_dinheiro:.2f}")
+                    else:
+                        n_dinheiro -= saque_user
+                        extrato_saque += saque_user
+                        print(f"SAQUE EFETUADO, SALDO ATUAL DE: R$ {n_dinheiro:.2f}")
+                        cont += 1
+                        if cont == MAX_SAQUES:
+                            print("Você chegou no seu limite de saques, volte amanhã.")
+                            break
+                        elif n_dinheiro <= 0:
+                            print("Você não tem dinheiro para mais saques!")
+                            break
+                        else: #if que controla o S/N
+                            resp = input("Deseja fazer outro saque? Se sim, aperte S, se não, aperte N: ").upper()
+                            if resp == "N":
+                                break
+        elif opcao == "E":
+            print("Tchau Tchau!")
+            break 
+    print('-'*80)
+    print("\n Q - EXTRATO \n D - DEPOSITO \n S - SAQUE \n E - EXIT \n")
+    print('-'*80)
